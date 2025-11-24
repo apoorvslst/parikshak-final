@@ -25,42 +25,36 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const firebaseAuth = getAuth(firebaseApp);
+export { firebaseApp as app };
 
 export const FirebaseProvider = ({ children = null }) => {
-
-  // --------------------------
-  // ✅ LOGIN STATE BOOLEAN
-  // --------------------------
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-
-  // Add this at the top inside FirebaseProvider
 const [currentUser, setCurrentUser] = useState(null);
 
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
     setIsUserLoggedIn(!!user);
-    setCurrentUser(user); // <-- store the full user object
+    setCurrentUser(user); 
   });
 
   return () => unsubscribe();
 }, []);
 
-  // --------------------------
-
-  const signupuser = (email, password) => {
-    return createUserWithEmailAndPassword(firebaseAuth, email, password);
+  const signupuser = async(email, password) => {
+    return await createUserWithEmailAndPassword(firebaseAuth, email, password);
   };
 
-  const loginuser = (email, password) => {
-    return signInWithEmailAndPassword(firebaseAuth, email, password);
+  const loginuser = async(email, password) => {
+    return await signInWithEmailAndPassword(firebaseAuth, email, password);
   };
+  
 
   const provider = new GoogleAuthProvider();
    provider.addScope("profile");
 provider.addScope("email");
-  const loginWithGoogle = () => {
+  const loginWithGoogle = async() => {
 
-    return signInWithPopup(firebaseAuth, provider);
+    return await signInWithPopup(firebaseAuth, provider);
   };
 
   const value = { 

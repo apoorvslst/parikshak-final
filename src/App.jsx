@@ -6,6 +6,7 @@ import './App.css'
 import Register from './components/Register'
 import Login from './components/Login'
 import Home from './components/Home'
+import Upload from './components/Upload'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,6 +16,7 @@ function App() {
       <Route path='/' element={<Home/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/signup' element={<Register/>}/>
+      <Route path='/textanalysis' element={<Upload/>}/>
     </Routes>
   )
 }
