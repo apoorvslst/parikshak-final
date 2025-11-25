@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { useFirebase, app } from "../context/Firebase"; // ensure `app` is exported
 import { useNavigate } from "react-router-dom";
+import * as Whisper from "whisper-wasm";
+import axios from "axios";
 
 const Upload = () => {
   const firebase = useFirebase();
@@ -19,16 +21,32 @@ const Upload = () => {
       setFile(selectedFile);
     }
   };
-
-  const [fileContent, setFileContent] = useState("");
-  const [fileName, setFileName] = useState("");
+  const [refmat, setRefmat] = useState("");
 
   const handleTextFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.value;
     if (!file) return;
 
-    setFileName(file.name);
+    setRefmat(file);
   };
+  const [transcribedText,setTranscribedText]=useState('');
+
+// const transcribeMedia = async (file) => {
+//   if (!file) return;
+
+//   try {
+    
+//   }
+// };
+
+
+useEffect(() => {
+  if (file) {
+    transcribeMedia(file).catch(err => {
+      console.error("Transcription failed:", err);
+    });
+  }
+}, [file]);
 
   useEffect(() => {
     const fetchTeachers = async () => {
@@ -36,7 +54,7 @@ const Upload = () => {
         const querySnapshot = await getDocs(collection(firestore, "teachers"));
         const teacherNames = querySnapshot.docs.map((doc) => doc.data().name);
         setTeachers(teacherNames);
-        console.log("Fetched teachers:", teacherNames); // debug
+        console.log("Fetched teachers:", teacherNames);
       } catch (err) {
         console.error("Error fetching teachers:", err);
       }
@@ -144,18 +162,15 @@ const Upload = () => {
   </div>
 
   <div className="flex flex-col w-full md:w-1/2">
-    <label className="mb-1 font-medium">Reference Material</label>
-    <input
-      type="file"
-      accept=".txt,.pdf"
-      className="border p-2 rounded text-white w-full h-20"
-      onChange={handleTextFileChange}
-    />
+    <textarea name="referencemat" placeholder="Give Reference Material" id="" onChange={handleTextFileChange} className="border p-2 rounded text-white w-full h-20 mt-7"></textarea>
   </div>
 </div>
 <button className="text-white bg-[#24cfa6] h-10 w-30 rounded mt-8 mb-8">Evaluate</button>
-
-
+<div>
+  <p>
+    TranscribedText : {transcribedText}
+  </p>
+</div>
       </section>
     </div>
   );

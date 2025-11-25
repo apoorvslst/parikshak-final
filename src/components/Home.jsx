@@ -73,12 +73,12 @@ const Home = () => {
               elevate teacher performance
             </span>
             <br />
-            and create better educational experiences <br />
+            and create better educational experiences <br/>
             for students.
           </div>
         </div>
 
-        <button className="w-80 h-10 text-black bg-[#24cfa6] rounded-lg text-lg font-semibold mt-5">
+        <button onClick={()=>navigate("/textanalysis")} className="w-80 h-10 text-black bg-[#24cfa6] rounded-lg text-lg font-semibold mt-5">
           Evaluate Your Teacher Effectively
         </button>
 
