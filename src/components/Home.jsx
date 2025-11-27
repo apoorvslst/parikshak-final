@@ -41,9 +41,9 @@ const Home = () => {
 
           <div className="right flex flex-row justify-around items-center">
             <span onClick={()=>navigate('/')} className="mx-10">Home</span>
-            <span className="mx-10">Insights</span>
+            <span onClick={()=>navigate("/insights")} className="mx-10">Insights</span>
             <span onClick={()=>navigate('/textanalysis')} className="mx-10">Upload & Analyse</span>
-            <span className="mx-10">Feedback</span>
+            <span onClick={() => navigate("/feedback")} className="mx-10">Feedback</span>
             {isUserLoggedIn ? (
   <img
     src={currentUser.photoURL || "/fallback-avatar.png"}
