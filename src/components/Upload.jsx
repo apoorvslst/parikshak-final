@@ -211,7 +211,7 @@ const Upload = () => {
   }, [firestore]);
 
   // ----------------- GEMINI EVALUATION (MODIFIED) -----------------
-  const GEMINI_API_KEY = process.env.REACT_APP_EXTERNAL_API_KEY;
+  const GEMINI_API_KEY = import.meta.env.VITE_EXTERNAL_API_KEY;
 
   const handleGeminiEvaluate = async () => {
     try {

@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Ignore sensitive environment files
-api.env
+.env
