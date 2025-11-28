@@ -9,6 +9,7 @@ import Home from './components/Home'
 import Upload from './components/Upload'
 import Insights from './components/Insights'
 import Feedback from './components/Feedback'
+import Live from './components/Live'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,6 +22,7 @@ function App() {
       <Route path='/textanalysis' element={<Upload/>}/>
       <Route path='/insights' element={<Insights/>}/>
       <Route path='/feedback' element={<Feedback/>}/>
+      <Route path='/live' element={<Live/>}/>
     </Routes>
   )
 }

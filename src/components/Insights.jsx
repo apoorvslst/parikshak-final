@@ -7,6 +7,7 @@ const Insights = () => {
   const firestore = getFirestore(app);
 
   const [teachers, setTeachers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchTeachers = async () => {
@@ -23,14 +24,53 @@ const Insights = () => {
     };
 
     fetchTeachers();
-  }, []);
+  }, [firestore]);
+
   const navigate = useNavigate();
   const { isUserLoggedIn, currentUser, loginWithGoogle } = useFirebase();
+
+  // Normalize search term once
+  const normalizedSearch = (searchTerm || "").trim().toLowerCase();
+
+  // Helper to safely compute a displayable rating
+  const computeRatingDisplay = (rating) => {
+    if (rating == null) return "N/A";
+
+    // If rating is a number
+    if (typeof rating === "number") {
+      return Number.isFinite(rating) ? rating.toFixed(1) : "N/A";
+    }
+
+    // If rating is a string like "4.5/5"
+    if (typeof rating === "string") {
+      return rating;
+    }
+
+    // If rating is an array (old format)
+    if (Array.isArray(rating) && rating.length > 0) {
+      const nums = rating.filter((r) => typeof r === "number" && Number.isFinite(r));
+      if (nums.length === 0) return "N/A";
+      const avg = nums.reduce((a, b) => a + b, 0) / nums.length;
+      return avg.toFixed(1);
+    }
+
+    return "N/A";
+  };
+
+  // FILTER: if searchTerm is empty -> show all teachers; otherwise filter by name includes
+  const filteredTeachers = normalizedSearch
+    ? teachers.filter((t) => {
+        const name = (t?.name || "").toString().toLowerCase();
+        return name.includes(normalizedSearch);
+      })
+    : teachers;
+
   return (
     <section
-      className="w-full flex flex-col items-center justify-around bg-black
+  className="w-full min-h-screen flex flex-col items-center justify-around bg-black
  text-white text-center pt-20 relative overflow-hidden"
-    >
+>
+
       {/* TOP-RIGHT PATCH */}
       <div
         className="absolute top-[-150px] right-[-150px] 
@@ -56,18 +96,15 @@ const Insights = () => {
         </div>
 
         <div className="right flex flex-row justify-around items-center">
-          <span onClick={() => navigate("/")} className="mx-10">
-            Home
-          </span>
-          <span className="mx-10">Insights</span>
-          <span onClick={() => navigate("/textanalysis")} className="mx-10">
-            Upload & Analyse
-          </span>
-          <span onClick={() => navigate("/feedback")} className="mx-10">Feedback</span>
+          <span onClick={()=>navigate('/')} className="mx-10 cursor-pointer">Home</span>
+            <span className="mx-10 cursor-pointer">Insights</span>
+            <span onClick={()=>navigate('/textanalysis')} className="mx-10 cursor-pointer">Upload & Analyse</span>
+            <span onClick={() => navigate("/live")} className="mx-10 cursor-pointer">Live Monitor</span>
+            <span onClick={() => navigate("/feedback")} className="mx-10 cursor-pointer">Feedback</span>
           {isUserLoggedIn ? (
             <img
               src={currentUser.photoURL || "/fallback-avatar.png"}
-              alt="https://media.istockphoto.com/id/1553217327/vector/user-profile-icon-avatar-person-sign-profile-picture-portrait-symbol-easily-editable-line.jpg?s=170667a&w=0&k=20&c=xUuHLFaa94WIFdV-XBgxX9SSsaJJgGQhE1Tmevqrytg="
+              alt="profile"
               className="mx-10 w-10 h-10 rounded-full border border-white"
             />
           ) : (
@@ -81,19 +118,31 @@ const Insights = () => {
         </div>
       </nav>
 
+      <h2 className="text-xl font-bold mb-8 mt-10 text-center text-white">
+        Search by Name
+      </h2>
+
+      {/* SEARCH INPUT (logic wired) */}
       <div>
-        <input className="border-2 border-white hover:border-[#24cfa6]" type="text" placeholder="Search by name" />
+        <input
+          className="border-2 border-white hover:border-[#24cfa6] h-8 w-80 p-2"
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Type a teacher's name..."
+        />
       </div>
+
       <div className="container mx-auto mt-10 p-4 max-w-7xl">
         <h2 className="text-xl font-bold text-white mb-8 text-center">
-          {" "}
           Instructors
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {teachers.map((item, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* DYNAMIC CARDS (filtered) */}
+          {filteredTeachers.map((item, index) => (
             <div
-              key={index}
+              key={item.id || index}
               className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-800 hover:border-[#24cfa6] transition-all duration-300 flex flex-col justify-between h-36 group"
             >
               <div className="flex justify-between items-start">
@@ -103,19 +152,14 @@ const Insights = () => {
                 <div className="flex items-center gap-1 bg-gray-800 h-8 px-1.5 py-0.5 rounded-md shrink-0">
                   <span className="text-[#24cfa6] text-[14px]">★</span>
                   <span className="text-white text-[14px] font-semibold">
-                    {item.rating && item.rating.length > 0
-                      ? (
-                          item.rating.reduce((a, b) => a + b, 0) /
-                          item.rating.length
-                        ).toFixed(1)
-                      : "N/A"}
+                    {computeRatingDisplay(item.rating)}
                   </span>
                 </div>
               </div>
 
               <div>
                 <div className="flex flex-wrap gap-1.5 mt-1">
-                  {item.topics.map((it, ind) => (
+                  {(item.topics || []).map((it, ind) => (
                     <span
                       key={ind}
                       className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20"
@@ -127,6 +171,145 @@ const Insights = () => {
               </div>
             </div>
           ))}
+
+          {/* STATIC CARDS (unchanged) */}
+          <div className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-800 hover:border-[#24cfa6] transition-all duration-300 flex flex-col justify-between h-36 group">
+            <div className="flex justify-between items-start">
+              <h3 className="text-base font-bold text-white group-hover:text-[#24cfa6] transition-colors truncate pr-2">
+                Mr. Dummy One
+              </h3>
+              <div className="flex items-center gap-1 bg-gray-800 h-8 px-1.5 py-0.5 rounded-md shrink-0">
+                <span className="text-[#24cfa6] text-[14px]">★</span>
+                <span className="text-white text-[14px] font-semibold">4.5</span>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex flex-wrap gap-1.5 mt-1">
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  Maths
+                </span>
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  Algebra
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-800 hover:border-[#24cfa6] transition-all duration-300 flex flex-col justify-between h-36 group">
+            <div className="flex justify-between items-start">
+              <h3 className="text-base font-bold text-white group-hover:text-[#24cfa6] transition-colors truncate pr-2">
+                Ms. Placeholder
+              </h3>
+              <div className="flex items-center gap-1 bg-gray-800 h-8 px-1.5 py-0.5 rounded-md shrink-0">
+                <span className="text-[#24cfa6] text-[14px]">★</span>
+                <span className="text-white text-[14px] font-semibold">4.0</span>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex flex-wrap gap-1.5 mt-1">
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  Science
+                </span>
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  Biology
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-800 hover:border-[#24cfa6] transition-all duration-300 flex flex-col justify-between h-36 group">
+            <div className="flex justify-between items-start">
+              <h3 className="text-base font-bold text-white group-hover:text-[#24cfa6] transition-colors truncate pr-2">
+                Dr. Static Card
+              </h3>
+              <div className="flex items-center gap-1 bg-gray-800 h-8 px-1.5 py-0.5 rounded-md shrink-0">
+                <span className="text-[#24cfa6] text-[14px]">★</span>
+                <span className="text-white text-[14px] font-semibold">5.0</span>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex flex-wrap gap-1.5 mt-1">
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  English
+                </span>
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  Literature
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-800 hover:border-[#24cfa6] transition-all duration-300 flex flex-col justify-between h-36 group">
+            <div className="flex justify-between items-start">
+              <h3 className="text-base font-bold text-white group-hover:text-[#24cfa6] transition-colors truncate pr-2">
+                Dr. Static Card
+              </h3>
+              <div className="flex items-center gap-1 bg-gray-800 h-8 px-1.5 py-0.5 rounded-md shrink-0">
+                <span className="text-[#24cfa6] text-[14px]">★</span>
+                <span className="text-white text-[14px] font-semibold">5.0</span>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex flex-wrap gap-1.5 mt-1">
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  English
+                </span>
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  Literature
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-800 hover:border-[#24cfa6] transition-all duration-300 flex flex-col justify-between h-36 group">
+            <div className="flex justify-between items-start">
+              <h3 className="text-base font-bold text-white group-hover:text-[#24cfa6] transition-colors truncate pr-2">
+                Dr. Static Card
+              </h3>
+              <div className="flex items-center gap-1 bg-gray-800 h-8 px-1.5 py-0.5 rounded-md shrink-0">
+                <span className="text-[#24cfa6] text-[14px]">★</span>
+                <span className="text-white text-[14px] font-semibold">5.0</span>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex flex-wrap gap-1.5 mt-1">
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  English
+                </span>
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  Literature
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-800 hover:border-[#24cfa6] transition-all duration-300 flex flex-col justify-between h-36 group">
+            <div className="flex justify-between items-start">
+              <h3 className="text-base font-bold text-white group-hover:text-[#24cfa6] transition-colors truncate pr-2">
+                Drona
+              </h3>
+              <div className="flex items-center gap-1 bg-gray-800 h-8 px-1.5 py-0.5 rounded-md shrink-0">
+                <span className="text-[#24cfa6] text-[14px]">★</span>
+                <span className="text-white text-[14px] font-semibold">5.0</span>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex flex-wrap gap-1.5 mt-1">
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  English
+                </span>
+                <span className="bg-[#24cfa6]/10 text-[#24cfa6] text-[10px] px-1.5 py-0.5 rounded-full border border-[#24cfa6]/20">
+                  Literature
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

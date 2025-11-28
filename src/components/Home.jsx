@@ -40,10 +40,11 @@ const Home = () => {
           </div>
 
           <div className="right flex flex-row justify-around items-center">
-            <span onClick={()=>navigate('/')} className="mx-10">Home</span>
-            <span onClick={()=>navigate("/insights")} className="mx-10">Insights</span>
-            <span onClick={()=>navigate('/textanalysis')} className="mx-10">Upload & Analyse</span>
-            <span onClick={() => navigate("/feedback")} className="mx-10">Feedback</span>
+            <span className="mx-10">Home</span>
+            <span onClick={()=>navigate("/insights")} className="mx-10 cursor-pointer">Insights</span>
+            <span onClick={()=>navigate('/textanalysis')} className="mx-10 cursor-pointer">Upload & Analyse</span>
+            <span onClick={() => navigate("/live")} className="mx-10 cursor-pointer">Live Monitor</span>
+            <span onClick={() => navigate("/feedback")} className="mx-10 cursor-pointer">Feedback</span>
             {isUserLoggedIn ? (
   <img
     src={currentUser.photoURL || "/fallback-avatar.png"}
