@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useFirebase } from "../context/Firebase";
 import { useNavigate } from "react-router-dom";
+import Logo2 from "../pictures/Logo2.png"
 
 // Dummy Teacher Data
 const teacherData = [
@@ -84,11 +85,16 @@ const Feedback = () => {
                 {/* Left side (Logo and Name) */}
                 <div className="left flex flex-row items-center">
                     <img
-                        // Mobile sizing (w-12 h-12 ms-4) before desktop sizing (sm:w-20 sm:h-20 sm:ms-20)
-                        className="w-12 h-12 ms-4 sm:w-20 sm:h-20 sm:ms-20"
-                        src="https://cdn.creazilla.com/icons/3432265/teacher-icon-lg.png"
-                        alt="logo"
-                    />
+                                                className="
+    w-14 h-14 sm:w-16 sm:h-16
+    ms-4 mt-4 sm:ms-20
+    object-cover
+    scale-180
+    origin-center
+  "
+                                                src={Logo2}
+                                                alt="Logo"
+                                            />
                     <div className="name mt-0 sm:mt-7 mx-2 sm:mx-5 text-base sm:text-lg font-medium">Parikshak AI</div>
                 </div>
 

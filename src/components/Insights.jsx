@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useFirebase, app } from "../context/Firebase";
+import Logo2 from "../pictures/Logo2.png"
 
 const Insights = () => {
     const firestore = getFirestore(app);
@@ -106,11 +107,16 @@ text-white text-center pt-20 relative overflow-hidden"
                 {/* Left side (Logo and Name) - Adjusted for mobile padding, kept desktop sizing for sm: */}
                 <div className="left flex flex-row items-center p-2 sm:p-0">
                     <img
-                        // Mobile sizing (w-12 h-12 ms-4) before desktop sizing (sm:w-20 sm:h-20 sm:ms-20)
-                        className="w-12 h-12 ms-4 sm:w-20 sm:h-20 sm:ms-20"
-                        src="https://cdn.creazilla.com/icons/3432265/teacher-icon-lg.png"
-                        alt=""
-                    />
+                                                className="
+    w-14 h-14 sm:w-16 sm:h-16
+    ms-4 mt-4 sm:ms-20
+    object-cover
+    scale-180
+    origin-center
+  "
+                                                src={Logo2}
+                                                alt="Logo"
+                                            />
                     <div className="name mt-0 sm:mt-7 mx-2 sm:mx-5 text-base sm:text-lg font-medium">Parikshak AI</div>
                 </div>
 
