@@ -70,6 +70,7 @@ text-white text-center pt-20 relative overflow-hidden">
                         <span onClick={() => handleNavigation("/insights")} className="mx-10 cursor-pointer">Insights</span>
                         <span onClick={() => handleNavigation('/textanalysis')} className="mx-10 cursor-pointer">Upload & Analyse</span>
                         <span onClick={() => handleNavigation("/live")} className="mx-10 cursor-pointer">Live Monitor</span>
+                        <span onClick={() => handleNavigation("/audio")} className="mx-10 cursor-pointer">Audio Analysis</span>
                         <span onClick={() => handleNavigation("/feedback")} className="mx-10 cursor-pointer">Feedback</span>
                         {isUserLoggedIn ? (
                             <img
@@ -125,6 +126,7 @@ text-white text-center pt-20 relative overflow-hidden">
                         <span onClick={() => handleNavigation('/textanalysis')} className="w-full text-center py-2 hover:bg-[#24cfa6]/20 cursor-pointer text-lg">Upload & Analyse</span>
                         <span onClick={() => handleNavigation("/live")} className="w-full text-center py-2 hover:bg-[#24cfa6]/20 cursor-pointer text-lg">Live Monitor</span>
                         <span onClick={() => handleNavigation("/feedback")} className="w-full text-center py-2 hover:bg-[#24cfa6]/20 cursor-pointer text-lg">Feedback</span>
+                        <span onClick={() => handleNavigation("/audio")} className="w-full text-center py-2 hover:bg-[#24cfa6]/20 cursor-pointer text-lg">Audio Analysis</span>
                     </div>
                 </div>
 

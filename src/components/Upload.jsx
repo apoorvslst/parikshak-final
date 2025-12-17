@@ -419,6 +419,7 @@ Evaluate and return ONLY JSON (no extra text).
                         <span onClick={() => handleNavigation("/insights")} className="mx-10 cursor-pointer">Insights</span>
                         <span className="mx-10 cursor-pointer">Upload & Analyse</span>
                         <span onClick={() => handleNavigation("/live")} className="mx-10 cursor-pointer">Live Monitor</span>
+                        <span onClick={() => handleNavigation("/audio")} className="mx-10 cursor-pointer">Audio Analysis</span>
                         <span onClick={() => handleNavigation("/feedback")} className="mx-10 cursor-pointer">Feedback</span>
                         {firebase.isUserLoggedIn && firebase.currentUser ? (
                             <img src={firebase.currentUser.photoURL || "/fallback-avatar.png"} alt="User" className="mx-10 w-10 h-10 rounded-full border border-white" />

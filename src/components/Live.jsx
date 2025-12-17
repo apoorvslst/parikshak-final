@@ -57,25 +57,29 @@ const LiveMonitorNavbar = ({ isUserLoggedIn, currentUser, navigate }) => {
                 <div className="right hidden lg:flex flex-row justify-around items-center">
                     <span 
                         onClick={() => handleNavigation('/')} 
-                        className={isActive('/') ? activeClassDesktop : inactiveClassDesktop}>Home
+                        className={inactiveClassDesktop}>Home
                     </span>
                     <span 
                         onClick={() => handleNavigation("/insights")} 
-                        className={isActive('/insights') ? activeClassDesktop : inactiveClassDesktop}>Insights
+                        className={inactiveClassDesktop}>Insights
                     </span>
                     {/* CORRECTED: Upload & Analyse is now conditional */}
                     <span 
                         onClick={() => handleNavigation('/textanalysis')} 
-                        className={isActive('/textanalysis') ? activeClassDesktop : inactiveClassDesktop}>Upload & Analyse
+                        className={inactiveClassDesktop}>Upload & Analyse
                     </span>
                     {/* CORRECTED: Live Monitor is now conditional (but will be active on this route) */}
                     <span 
                         onClick={() => handleNavigation("/live")} 
-                        className={isActive('/live') ? activeClassDesktop : inactiveClassDesktop}>Live Monitor
+                        className={inactiveClassDesktop}>Live Monitor
+                    </span>
+                    <span 
+                        onClick={() => handleNavigation("/audio")} 
+                        className={inactiveClassDesktop}>Audio Analysis
                     </span>
                     <span 
                         onClick={() => handleNavigation("/feedback")} 
-                        className={isActive('/feedback') ? activeClassDesktop : inactiveClassDesktop}>Feedback
+                        className={inactiveClassDesktop}>Feedback
                     </span>
                     {isUserLoggedIn && currentUser ? (
                         <img src={currentUser.photoURL || "/fallback-avatar.png"} alt="User" className="mx-4 xl:mx-10 w-10 h-10 rounded-full border border-white" />

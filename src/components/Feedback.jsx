@@ -104,6 +104,7 @@ const Feedback = () => {
                     <span onClick={() => navigate("/insights")} className="mx-10 cursor-pointer">Insights</span>
                     <span onClick={() => navigate('/textanalysis')} className="mx-10 cursor-pointer">Upload & Analyse</span>
                     <span onClick={() => navigate("/live")} className="mx-10 cursor-pointer">Live Monitor</span>
+                    <span onClick={() => navigate("/audio")} className="mx-10 cursor-pointer">Audio Analysis</span>
                     <span className="mx-10 cursor-pointer">Feedback</span>
 
                     {isUserLoggedIn ? (

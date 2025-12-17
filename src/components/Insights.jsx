@@ -126,6 +126,7 @@ text-white text-center pt-20 relative overflow-hidden"
                     <span className="mx-10 cursor-pointer">Insights</span>
                     <span onClick={() => handleNavigation('/textanalysis')} className="mx-10 cursor-pointer">Upload & Analyse</span>
                     <span onClick={() => handleNavigation("/live")} className="mx-10 cursor-pointer">Live Monitor</span>
+                    <span onClick={() => handleNavigation("/audio")} className="mx-10 cursor-pointer">Audio Analysis</span>
                     <span onClick={() => handleNavigation("/feedback")} className="mx-10 cursor-pointer">Feedback</span>
                     {isUserLoggedIn ? (
                         <img
