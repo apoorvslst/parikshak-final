@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 // --- CONSTANTS & CONFIG (From Logic Source) ---
-const DEFAULT_GOOGLE_KEY = VITE_EXTERNAL_API_KEY;
+const DEFAULT_GOOGLE_KEY = import.meta.env.VITE_EXTERNAL_API_KEY;
 const DEFAULT_HF_KEY = "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";
 
 const Audio = () => {
