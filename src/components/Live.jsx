@@ -427,6 +427,7 @@ const Live = () => {
                 });
                 await videoReady;
                 setCameraActive(true);
+                setScore(50);
                 // Reset all timers on start
                 const now = Date.now();
                 timersRef.current = {
