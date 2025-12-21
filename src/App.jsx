@@ -11,20 +11,32 @@ import Insights from './components/Insights'
 import Feedback from './components/Feedback'
 import Live from './components/Live'
 import Audio from './components/Audio'
+import Doubts from './components/Doubts'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // We initialize from localStorage so the role doesn't reset on refresh
+  const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || "Student/Admin");
+
+  const updateRole = (newRole) => {
+    setUserRole(newRole);
+    localStorage.setItem("userRole", newRole); // Persistent storage
+  };
 
   return (
     <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/signup' element={<Register/>}/>
-      <Route path='/textanalysis' element={<Upload/>}/>
-      <Route path='/insights' element={<Insights/>}/>
-      <Route path='/feedback' element={<Feedback/>}/>
-      <Route path='/live' element={<Live/>}/>
-      <Route path='/audio' element={<Audio/>}/>
+      <Route path='/' element={<Home userRole={userRole}/>}/>
+      
+      {/* These two can CHANGE the role */}
+      <Route path='/login' element={<Login setUserRole={updateRole}/>}/>
+      <Route path='/signup' element={<Register setUserRole={updateRole}/>}/>
+      
+      {/* These components USE the role */}
+      <Route path='/textanalysis' element={<Upload userRole={userRole}/>}/>
+      <Route path='/insights' element={<Insights userRole={userRole}/>}/>
+      <Route path='/feedback' element={<Feedback userRole={userRole}/>}/>
+      <Route path='/live' element={<Live userRole={userRole}/>}/>
+      <Route path='/audio' element={<Audio userRole={userRole}/>}/>
+      <Route path='/doubts' element={<Doubts userRole={userRole}/>}/>
     </Routes>
   )
 }

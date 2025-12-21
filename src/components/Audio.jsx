@@ -15,7 +15,7 @@ import {
 const DEFAULT_GOOGLE_KEY = import.meta.env.VITE_EXTERNAL_API_KEY;
 const DEFAULT_HF_KEY = "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";
 
-const Audio = () => {
+const Audio = ({ userRole }) => {
     // --- NAVIGATION STATE (From Shell Source) ---
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const firebase = useFirebase();
@@ -406,69 +406,83 @@ const Audio = () => {
                 <div className="absolute bottom-[-150px] left-[-150px] w-[350px] h-[350px] bg-[#24cfa6] rounded-full blur-[160px] opacity-40 pointer-events-none"></div>
 
                 {/* --- NAVIGATION --- */}
-                <nav className="fixed top-0 left-0 w-full flex bg-transparent justify-between text-white z-50 backdrop-blur-sm bg-black/20">
-                    <div className="left flex flex-row items-center p-2 sm:p-0">
-                        <img
-                            className="w-14 h-14 sm:w-16 sm:h-16 ms-4 mt-4 sm:ms-20 object-cover scale-180 origin-center"
-                            src={Logo2}
-                            alt="Logo"
-                        />
-                        <div className="name mt-0 sm:mt-7 mx-2 sm:mx-5 text-base sm:text-lg font-medium">
-                            Parikshak AI
-                        </div>
-                    </div>
-
-                    {/* Desktop Navigation */}
-                    <div className="right hidden sm:flex flex-row justify-around items-center">
-                        <span className="mx-10 cursor-pointer" onClick={() => handleNavigation("/")}>Home</span>
-                        <span onClick={() => handleNavigation("/insights")} className="mx-10 cursor-pointer">Insights</span>
-                        <span onClick={() => handleNavigation('/textanalysis')} className="mx-10 cursor-pointer">Upload & Analyse</span>
-                        <span onClick={() => handleNavigation("/live")} className="mx-10 cursor-pointer">Live Monitor</span>
-                        <span className="mx-10 cursor-pointer">Audio Analysis</span>
-                        <span onClick={() => handleNavigation("/feedback")} className="mx-10 cursor-pointer">Feedback</span>
+                <nav className="fixed top-0 left-0 w-full flex bg-transparent justify-between text-white z-20">
+                                    <div className="left flex flex-row items-center p-2 sm:p-0">
+                                        <img className="w-14 h-14 sm:w-16 sm:h-16 ms-4 mt-4 sm:ms-20 object-cover scale-180 origin-center" src={Logo2} alt="Logo" />
+                                        <div className="name mt-0 sm:mt-7 mx-2 sm:mx-5 text-base sm:text-lg font-medium">Parikshak AI</div>
+                                    </div>
                 
-                        
-                        {isUserLoggedIn ? (
-                            <img
-                                src={currentUser.photoURL || "/fallback-avatar.png"}
-                                alt="User Profile"
-                                className="mx-10 w-10 h-10 rounded-full border border-white cursor-pointer"
-                                onClick={() => handleNavigation("/profile")}
-                            />
-                        ) : (
-                            <button className="mx-10 bg-[#24cfa6] h-9 w-28 rounded text-black font-medium" onClick={() => handleNavigation("/login")}>
-                                Sign In
-                            </button>
-                        )}
-                    </div>
-
-                    {/* Mobile Menu Button */}
-                    <div className="flex items-center sm:hidden me-4">
-                        {isUserLoggedIn ? (
-                            <img
-                                src={currentUser.photoURL || "/fallback-avatar.png"}
-                                alt="User Avatar"
-                                className="w-8 h-8 rounded-full border border-white me-4 cursor-pointer"
-                                onClick={() => handleNavigation("/profile")}
-                            />
-                        ) : (
-                            <button className="bg-[#24cfa6] h-8 w-16 rounded text-black text-sm font-medium me-4" onClick={() => handleNavigation("/login")}>
-                                Sign In
-                            </button>
-                        )}
-                        <button className="text-white text-2xl focus:outline-none" onClick={toggleMenu}>
-                            {isMenuOpen ? (
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                                </svg>
-                            ) : (
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                                </svg>
-                            )}
-                        </button>
-                    </div>
-                </nav>
+                                    {/* Desktop Navigation */}
+                                    <div className="right hidden sm:flex flex-row justify-around items-center">
+                                        <span className="mx-6 cursor-pointer" onClick={() => handleNavigation("/")}>Home</span>
+                                        
+                                        {/* ROLE SPECIFIC: Student/Admin only see Insights */}
+                                        {userRole === "Student/Admin" && (
+                                            <span onClick={() => handleNavigation("/insights")} className="mx-6 cursor-pointer">Insights</span>
+                                        )}
+                                        
+                                        <span onClick={() => handleNavigation('/textanalysis')} className="mx-6 cursor-pointer">Upload & Analyse</span>
+                                        <span onClick={() => handleNavigation("/live")} className="mx-6 cursor-pointer">Live Monitor</span>
+                                        <span onClick={() => handleNavigation("/audio")} className="mx-6 cursor-pointer">Audio Analysis</span>
+                                        
+                                        {/* ROLE SPECIFIC: Swap Feedback and Doubts */}
+                                        {userRole === "Student/Admin" ? (
+                                            <span onClick={() => handleNavigation("/feedback")} className="mx-6 cursor-pointer">Feedback</span>
+                                        ) : (
+                                            <span onClick={() => handleNavigation("/doubts")} className="mx-6 cursor-pointer">Doubts</span>
+                                        )}
+                
+                                        {isUserLoggedIn ? (
+                                            <img
+                                                src={currentUser?.photoURL || "/fallback-avatar.png"}
+                                                alt="User Profile"
+                                                className="mx-10 w-10 h-10 rounded-full border border-white cursor-pointer"
+                                                onClick={() => handleNavigation("/profile")}
+                                            />
+                                        ) : (
+                                            <button className="mx-10 bg-[#24cfa6] h-9 w-28 rounded text-black font-medium" onClick={() => handleNavigation("/login")}>
+                                                Sign In
+                                            </button>
+                                        )}
+                                    </div>
+                
+                                    {/* Mobile Menu Button */}
+                                    <div className="flex items-center sm:hidden me-4">
+                                        {isUserLoggedIn ? (
+                                            <img src={currentUser?.photoURL || "/fallback-avatar.png"} alt="User Avatar" className="w-8 h-8 rounded-full border border-white me-4 cursor-pointer" onClick={() => handleNavigation("/profile")} />
+                                        ) : (
+                                            <button className="bg-[#24cfa6] h-8 w-16 rounded text-black text-sm font-medium me-4" onClick={() => handleNavigation("/login")}>Sign In</button>
+                                        )}
+                                        <button className="text-white text-2xl focus:outline-none" onClick={toggleMenu}>
+                                            {isMenuOpen ? (
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
+                                            ) : (
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+                                            )}
+                                        </button>
+                                    </div>
+                                </nav>
+                
+                                {/* Mobile Menu Dropdown */}
+                                <div className={`fixed top-16 left-0 w-full bg-black/95 backdrop-blur-sm z-10 sm:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                                    <div className="flex flex-col items-center py-4 space-y-3">
+                                        <span onClick={() => handleNavigation("/")} className="w-full text-center py-2 hover:bg-[#24cfa6]/20 cursor-pointer text-lg">Home</span>
+                                        
+                                        {userRole === "Student/Admin" && (
+                                            <span onClick={() => handleNavigation("/insights")} className="w-full text-center py-2 hover:bg-[#24cfa6]/20 cursor-pointer text-lg">Insights</span>
+                                        )}
+                
+                                        <span onClick={() => handleNavigation('/textanalysis')} className="w-full text-center py-2 hover:bg-[#24cfa6]/20 cursor-pointer text-lg">Upload & Analyse</span>
+                                        <span onClick={() => handleNavigation("/live")} className="w-full text-center py-2 hover:bg-[#24cfa6]/20 cursor-pointer text-lg">Live Monitor</span>
+                                        <span onClick={() => handleNavigation("/audio")} className="w-full text-center py-2 hover:bg-[#24cfa6]/20 cursor-pointer text-lg">Audio Analysis</span>
+                                        
+                                        {userRole === "Student/Admin" ? (
+                                            <span onClick={() => handleNavigation("/feedback")} className="w-full text-center py-2 hover:bg-[#24cfa6]/20 cursor-pointer text-lg">Feedback</span>
+                                        ) : (
+                                            <span onClick={() => handleNavigation("/doubts")} className="w-full text-center py-2 hover:bg-[#24cfa6]/20 cursor-pointer text-lg">Doubts</span>
+                                        )}
+                                    </div>
+                                </div>
 
                 {/* --- MAIN ANALYSIS INTERFACE --- */}
                 <div className="w-full max-w-6xl px-4 md:px-8 z-10 flex flex-col gap-8">
