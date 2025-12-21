@@ -12,8 +12,8 @@ import {
 } from 'lucide-react';
 
 // --- CONSTANTS & CONFIG (From Second Code) ---
-const DEFAULT_GOOGLE_KEY = "AIzaSyDY4_R3-vDIEGCfrsBGywPYNMkYQC_k6rI"; // Updated Key
-const DEFAULT_SERVER_URL = "https://knaggy-nonadhesively-aaliyah.ngrok-free.dev"; 
+const DEFAULT_GOOGLE_KEY = env.VITE_EXTERNAL_API_KEY; // Updated Key
+const DEFAULT_SERVER_URL = env.VITE_DEFAULT_SERVER_URL; 
 
 const Audio = ({ userRole }) => {
     // --- NAVIGATION STATE (From First Code - Preserved) ---
