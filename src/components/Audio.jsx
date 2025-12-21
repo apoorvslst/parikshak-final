@@ -12,8 +12,8 @@ import {
 } from 'lucide-react';
 
 // --- CONSTANTS & CONFIG (From Second Code) ---
-const DEFAULT_GOOGLE_KEY = env.VITE_EXTERNAL_API_KEY; // Updated Key
-const DEFAULT_SERVER_URL = env.VITE_DEFAULT_SERVER_URL; 
+const DEFAULT_GOOGLE_KEY = import.meta.env.VITE_EXTERNAL_API_KEY;
+const DEFAULT_SERVER_URL = import.meta.env.VITE_DEFAULT_SERVER_URL; 
 
 const Audio = ({ userRole }) => {
     // --- NAVIGATION STATE (From First Code - Preserved) ---
