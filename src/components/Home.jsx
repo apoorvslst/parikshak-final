@@ -71,7 +71,7 @@ const Home = ({ userRole }) => {
     </div>
   )
 ) : (
-  <button onClick={handleNavigation("/login")}>Sign In</button>
+  <button onClick={() => handleNavigation("/login")}>Sign In</button>
 )}
 
                     </div>
