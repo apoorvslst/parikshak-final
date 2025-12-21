@@ -22,7 +22,7 @@ const Home = ({ userRole }) => {
 
     return (
         <div>
-            <section className="w-full flex flex-col items-center justify-around bg-black text-white text-center pt-20 relative overflow-hidden">
+            <section className="w-full flex flex-col items-center justify-around bg-black text-white text-center pt-20 relative overflow-hidden h-full">
                 
                 {/* Background Glows */}
                 <div className="absolute top-[-150px] right-[-50px] w-[350px] h-[350px] bg-[#24cfa6] rounded-full blur-[160px] opacity-70"></div>
