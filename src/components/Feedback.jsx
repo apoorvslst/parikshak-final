@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Logo2 from "../pictures/Logo2.png";
 
 const teacherData = [
-  { name: "Mr. ABC", subject: "Mathematics", count: 45, rating: "4.5/5", authenticity: 85, bias: 15 },
-  { name: "Mr. ABX", subject: "Physics", count: 32, rating: "3.5/5", authenticity: 85, bias: 15 },
-  { name: "Mr. Don", subject: "Chemistry", count: 58, rating: "5/5", authenticity: 88, bias: 12 },
-  { name: "Ms. Arti", subject: "Biology", count: 38, rating: "4/5", authenticity: 90, bias: 10 },
-  { name: "Mrs. Jaya", subject: "English", count: 28, rating: "3.5/5", authenticity: 95, bias: 5 },
-  { name: "Mr. Kishore", subject: "History", count: 45, rating: "4.3/5", authenticity: 85, bias: 15 },
+  { name: "Prashant Goyal", subject: "Mathematics", count: 45, rating: "4.5/5", authenticity: 85 },
+  { name: "Ashish Arora", subject: "Physics", count: 32, rating: "3.5/5", authenticity: 85 },
+  { name: "Rahul Joshi", subject: "Chemistry", count: 58, rating: "5/5", authenticity: 88 },
+  { name: "Ms. Arti", subject: "Biology", count: 38, rating: "4/5", authenticity: 90 },
+  { name: "Mrs. Jaya", subject: "English", count: 28, rating: "3.5/5", authenticity: 95 },
+  { name: "Sumit Kumar", subject: "History", count: 45, rating: "4.3/5", authenticity: 85 },
 ];
 
 const Feedback = ({ userRole }) => {

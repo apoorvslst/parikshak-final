@@ -191,6 +191,55 @@ text-white text-center pt-20 relative overflow-hidden"
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {/* DUMMY CARDS */}
+<div className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-800 hover:border-[#24cfa6] transition-all duration-300 flex flex-col justify-between h-36 group">
+    <div className="flex justify-between items-start">
+        <h3 className="text-base font-bold text-white group-hover:text-[#24cfa6] transition-colors truncate pr-2">
+            Ashish Arora
+        </h3>
+        <div className="flex items-center gap-1 bg-gray-800 h-8 px-1.5 py-0.5 rounded-md shrink-0">
+            <span className="text-[#24cfa6] text-[14px]">★</span>
+            <span className="text-white text-[14px] font-semibold">4.3</span>
+        </div>
+    </div>
+</div>
+
+<div className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-800 hover:border-[#24cfa6] transition-all duration-300 flex flex-col justify-between h-36 group">
+    <div className="flex justify-between items-start">
+        <h3 className="text-base font-bold text-white group-hover:text-[#24cfa6] transition-colors truncate pr-2">
+            Prerna Vanjani
+        </h3>
+        <div className="flex items-center gap-1 bg-gray-800 h-8 px-1.5 py-0.5 rounded-md shrink-0">
+            <span className="text-[#24cfa6] text-[14px]">★</span>
+            <span className="text-white text-[14px] font-semibold">4.3</span>
+        </div>
+    </div>
+</div>
+
+
+<div className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-800 hover:border-[#24cfa6] transition-all duration-300 flex flex-col justify-between h-36 group">
+    <div className="flex justify-between items-start">
+        <h3 className="text-base font-bold text-white group-hover:text-[#24cfa6] transition-colors truncate pr-2">
+            Prashant Goyal
+        </h3>
+        <div className="flex items-center gap-1 bg-gray-800 h-8 px-1.5 py-0.5 rounded-md shrink-0">
+            <span className="text-[#24cfa6] text-[14px]">★</span>
+            <span className="text-white text-[14px] font-semibold">3.9</span>
+        </div>
+    </div>
+</div>
+<div className="bg-gray-900 rounded-lg p-4 shadow-md border border-gray-800 hover:border-[#24cfa6] transition-all duration-300 flex flex-col justify-between h-36 group">
+    <div className="flex justify-between items-start">
+        <h3 className="text-base font-bold text-white group-hover:text-[#24cfa6] transition-colors truncate pr-2">
+            Kapil Chowdhary
+        </h3>
+        <div className="flex items-center gap-1 bg-gray-800 h-8 px-1.5 py-0.5 rounded-md shrink-0">
+            <span className="text-[#24cfa6] text-[14px]">★</span>
+            <span className="text-white text-[14px] font-semibold">4.1</span>
+        </div>
+    </div>
+</div>
+
                     {/* DYNAMIC CARDS (filtered) - NO CHANGE */}
                     {filteredTeachers.map((item, index) => (
                         <div

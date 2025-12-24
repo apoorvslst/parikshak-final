@@ -60,12 +60,11 @@ const Home = ({ userRole }) => {
       src={currentUser.photoURL}
       alt="User Profile"
       className="mx-10 w-10 h-10 rounded-full border border-white cursor-pointer"
-      onClick={() => handleNavigation("/profile")}
+    
     />
   ) : (
     <div
       className="mx-10 w-10 h-10 rounded-full border border-white flex items-center justify-center cursor-pointer bg-zinc-800"
-      onClick={() => handleNavigation("/profile")}
     >
       👤
     </div>
